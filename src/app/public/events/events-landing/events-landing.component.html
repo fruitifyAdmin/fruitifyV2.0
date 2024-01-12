@@ -1,0 +1,58 @@
+<div class="d-flex flex-column justify-content-between" [ngClass]="isDarkTheme ? 'mainContainer-dark-theme' : 'mainContainer'">
+    <nav class="navbar navbar-expand-lg navBar d-flex justify-content-between">
+        <div class="container-fluid">
+          <div class="brandIcon navbar-brand">
+            <img src="../../../../assets/brandAssets/withoutBorder.png" alt="">
+        </div>
+          <button class="navbar-toggler collapsed d-flex d-lg-none flex-column justify-content-around" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="toggler-icon top-bar"></span>
+            <span class="toggler-icon middle-bar"></span>
+            <span class="toggler-icon bottom-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+            <ul class="navbar-nav align-items-center gap-4" [ngClass]="isDarkTheme ? 'navList-dark-theme' : 'navList'">
+              <li class="nav-item">
+                <span class="navItem">Gallery</span>
+              </li>
+              <li class="nav-item">
+                <span class="navItem">Services</span>
+              </li>
+              <li class="nav-item">
+                <span class="navItem">Our Team</span>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="btn btn-primary" [ngClass]="isDarkTheme ? 'darkBtn' : 'whiteBtn'" (click)="toggleTheme()">Contact Us</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <div class="d-flex">
+        <div class="leftContainer d-flex flex-column col-md-6 col-lg-6 col-sm-6 gap-3">
+            <span [ngClass]="isDarkTheme ? 'titleText-dark-theme' : 'titleText'">
+                Your Gateway to <br>Unforgettable <br> Experiences
+            </span>
+            <span [ngClass]="isDarkTheme ? 'descriptionText-dark-theme' : 'descriptionText'">
+                Embark on a journey with us at Your Gateway to Unforgettable Experiences. 
+                Discover a world of extraordinary events tailored just for you. 
+                From vibrant concerts to insightful workshops, we curate moments that linger. 
+                Explore, connect, and make memories that last a lifetime. Your adventure begins here.
+            </span>
+            <div class="w-25">
+                <button type="button" class="btn btn-primary" [ngClass]="isDarkTheme ? 'darkBtn' : 'whiteBtn'">Book Now</button>
+            </div>
+        </div>
+        <div class="rightContainer col-md-6 col-lg-6">
+            <div class="d-flex heroGalleryDiv">
+                <div class="leftGallery d-flex flex-column">
+                    <div class="d-flex h-50">
+                        <div class="leftTopImg1"></div>
+                        <div class="leftTopImg2"></div>
+                    </div>
+                    <div class="leftBottomImg"></div>
+                </div>
+                <div class="rightGallery"></div>
+            </div>
+        </div>
+    </div>
+</div>

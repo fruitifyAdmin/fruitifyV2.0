@@ -4,6 +4,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthService as AuthGuard } from './auth.service';
+import { PublicModule } from './public/public.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { AuthService as AuthGuard } from './auth.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    PublicModule,
+    AppRoutingModule,
   ],
   providers: [
     AuthGuard,
