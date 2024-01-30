@@ -1,0 +1,35 @@
+<div [ngClass]="isDarkTheme ? 'mainContainer-dark-theme' : 'mainContainer'">
+    <div class="topBar d-flex justify-content-between">
+        <span class="navBrandDiv">
+            <img class="navImg" src="../../../../assets/brandAssets/withoutBorder.png" alt="" (click)="toggle()">
+            Fruitify
+        </span>
+    </div>
+    <div class="sideBar">
+        <div *ngIf="!isMenuLoaded" class="h-100 w-100 d-flex justify-content-center align-items-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+        </div>
+        <div *ngIf="isMenuLoaded" class="layout-menu">
+            <div *ngFor="let item of menu; let i = index">
+                <div *ngIf="item.isActive">
+                    <span class="menuCategory">{{item.label}}</span>
+                    <div *ngFor="let subItem of item.items" (click)="updateActiveMenu(subItem.label)">
+                        <div class="d-flex menuItem" [ngClass]="subItem.label == activeMenuItem ? 'activeMenuItem' : ''" *ngIf="subItem.isActive">
+                            <i class="{{subItem.icon}} itemIcon"></i>
+                            <span>{{subItem.label}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layout-main-container">
+        <div class="layout-main">
+            <div *ngIf="activeMenuItem == 'Nav Items'">
+                <app-nav-items [menuCategories]="menu"></app-nav-items>
+            </div>
+        </div>
+    </div>
+</div>

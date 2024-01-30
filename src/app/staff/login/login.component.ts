@@ -61,7 +61,7 @@ export class LoginComponent {
            localStorage.setItem('userName',staff.userName)
            localStorage.setItem('role',staff.role)
            if(staff.status == 'Approved') {
-             this.router.navigateByUrl('staffHome');
+             this.router.navigateByUrl('staff/home');
            } else {
              this.router.navigateByUrl('registrationPending');
            }
@@ -111,4 +111,5 @@ export class LoginComponent {
  show() {
    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Otp sent to your registered mobile number' });
  }
+ 
 }

@@ -23,10 +23,12 @@ export class StaffService {
   }
 
   userCollection: AngularFirestoreCollection;
+  menuCategoryCollection: AngularFirestoreCollection;
 
   constructor(private fireStore: AngularFirestore, private firebaseAuth: AngularFireAuth, private windowservice: WindowService) {
     // this.windowRef = this.windowservice.windowRef;
     this.userCollection = fireStore.collection('Staff');
+    this.menuCategoryCollection = fireStore.collection('menuCollection');
   }
 
   ngOnInit() {
@@ -85,4 +87,33 @@ export class StaffService {
   getStaffData(id: any) {
     return this.userCollection.doc(id).get();
   }
+
+  getSideMenuCategories() {
+    return this.menuCategoryCollection.doc('menuCategories').collection('categoriesCollection').get();
+  }
+
+  addSideMenuCategories(obj: any) {
+    return this.menuCategoryCollection.doc('menuCategories').collection('categoriesCollection').doc().set(obj);
+  }
+
+  editSideMenuCategories(obj: any, id: any) {
+    return this.menuCategoryCollection.doc('menuCategories').collection('categoriesCollection').doc(id).update(obj);
+  }
+
+  editSideMenuItem(categoryName: any, obj: any, id: any) {
+    return this.menuCategoryCollection.doc('menuCategories').collection(categoryName).doc(id).update(obj);
+  }
+
+  deleteSideMenuCategories(id: any) {
+    return this.menuCategoryCollection.doc('menuCategories').collection("categoriesCollection").doc(id).delete();
+  }
+  
+  deleteSideMenuItem(categoryName: any, id: any) {
+    return this.menuCategoryCollection.doc('menuCategories').collection(categoryName).doc(id).delete();
+  }
+  
+  getMenuItems(categoryName: string) {
+    return this.menuCategoryCollection.doc('menuCategories').collection(categoryName).get();
+  }
+
 }

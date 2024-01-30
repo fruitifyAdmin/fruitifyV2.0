@@ -1,0 +1,371 @@
+<div>
+    <p-tabMenu styleClass="tabMenu" [model]="items" [activeItem]="activeItem"
+        (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
+    <div *ngIf="activeItem!.label == 'Categories'">
+        <div class="w-100 d-flex justify-content-end">
+            <p-button class="addBtn" label="Add" icon="pi pi-plus" size="small" (onClick)="openAddCategory()"></p-button>
+            <p-dialog header="Add New Category" [modal]="true" [(visible)]="showAddCategory" [breakpoints]="{ '960px': '75vw' }"
+                [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+                <div class="w-100">
+                    <form [formGroup]="addCategoryGroup" class="d-flex gap-4 align-items-end">
+                        <span class="w-50 d-flex flex-column gap-2">
+                            <label class="formLabel" for="categoryName">Category Name</label>
+                            <input class="w-100" pInputText id="categoryName"
+                                formControlName="categoryName" />
+                        </span>
+                        <div class="d-flex justify-content-start gap-3 mt-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value=""
+                                    formControlName="isActive" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Is Active
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value=""
+                                    formControlName="adminFeature" id="flexCheckChecked"
+                                    checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Admin Feature
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <p-button class="addBtn" label="Reset" icon="pi pi-plus" size="small" (onClick)="openAddCategory()"></p-button>
+                        <p-button class="addBtn" label="Add" icon="pi pi-plus" size="small" (onClick)="addCategory()"></p-button>
+                    </div>
+                </div>
+            </p-dialog>
+        </div>
+        <div class="mt-4">
+            <p-table [value]="menuCategories" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="tableHeader">Cateogry Name</th>
+                        <th class="tableHeader">Is Active</th>
+                        <th class="tableHeader">Admin Feature</th>
+                        <th class="tableHeader">Actions</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-menuItem>
+                    <tr>
+                        <td> {{menuItem.label}} </td>
+                        <td>
+                            <ng-container *ngIf="menuItem.isActive; else inactiveButton">
+                                <p-button class="tickBtn" icon="pi pi-check" [rounded]="true"
+                                    severity="success"></p-button>
+                            </ng-container>
+                            <ng-template #inactiveButton>
+                                <p-button class="crossBtn" icon="pi pi-times" [rounded]="true"
+                                    severity="danger"></p-button>
+                            </ng-template>
+                        </td>
+                        <td>
+                            <ng-container *ngIf="menuItem.adminFeature; else inactiveButton">
+                                <p-button class="tickBtn" icon="pi pi-check" [rounded]="true"
+                                    severity="success"></p-button>
+                            </ng-container>
+                            <ng-template #inactiveButton>
+                                <p-button class="crossBtn" icon="pi pi-times" [rounded]="true"
+                                    severity="danger"></p-button>
+                            </ng-template>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-4">
+                                <div class="flex justify-content-center">
+                                    <span class="pi pi-info-circle actionBtn"
+                                        (click)="openCategoryInfo(menuItem)"></span>
+                                    <p-dialog
+                                        [header]="categoryInfoGroup.controls['categoryName'].value + ' - Category Info'"
+                                        [modal]="true" [(visible)]="showCategoryInfo"
+                                        [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+                                        [draggable]="false" [resizable]="false">
+                                        <div class="w-100">
+                                            <form [formGroup]="categoryInfoGroup" class="d-flex gap-4 align-items-end">
+                                                <span class="w-50 d-flex flex-column gap-2">
+                                                    <label class="formLabel" for="categoryName">Category Name</label>
+                                                    <input class="w-100" pInputText id="categoryName"
+                                                        formControlName="categoryName" />
+                                                </span>
+                                                <div class="d-flex justify-content-start gap-3 mt-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value=""
+                                                            formControlName="isActive" id="flexCheckDefault">
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            Is Active
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value=""
+                                                            formControlName="adminFeature" id="flexCheckChecked"
+                                                            checked>
+                                                        <label class="form-check-label" for="flexCheckChecked">
+                                                            Admin Feature
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </p-dialog>
+                                </div>
+                                <div class="flex justify-content-center">
+                                    <span class="pi pi-file-edit actionBtn" (click)="openEditCategory(menuItem)"></span>
+                                    <p-dialog header="Header" [modal]="true" [(visible)]="showEditCategory"
+                                        [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+                                        [draggable]="false" [resizable]="false">
+                                        <div class="w-100">
+                                            <form [formGroup]="categoryInfoGroup" class="d-flex gap-4 align-items-end">
+                                                <span class="w-50 d-flex flex-column gap-2">
+                                                    <label class="formLabel" for="categoryName">Category Name</label>
+                                                    <input class="w-100" pInputText id="categoryName"
+                                                        formControlName="categoryName" />
+                                                </span>
+                                                <div class="d-flex justify-content-start gap-3 mt-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value=""
+                                                            formControlName="isActive" id="flexCheckDefault">
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            Is Active
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value=""
+                                                            formControlName="adminFeature" id="flexCheckChecked"
+                                                            checked>
+                                                        <label class="form-check-label" for="flexCheckChecked">
+                                                            Admin Feature
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <div class="d-flex justify-content-end gap-2 mt-4">
+                                                <p-button class="addBtn" [outlined]="true" severity="secondary" label="Cancel" size="small" (onClick)="closeEditCategory()"></p-button>
+                                                <p-button class="addBtn" label="Update" size="small" (onClick)="editCategory(menuItem.id)"></p-button>
+                                            </div>
+                                        </div>
+                                    </p-dialog>
+                                </div>
+                                <div class="flex justify-content-center">
+                                    <span class="pi pi-trash actionBtn" (click)="openDeleteCategory()"></span>
+                                    <p-dialog header="Delete Confirmation" [modal]="true" [(visible)]="showDeleteCategory"
+                                            [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '25vw' }"
+                                            [draggable]="false" [resizable]="false">
+                                            <div>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="pi pi-info-circle"></span>
+                                                    Are you sure, you want to delete {{menuItem.label}} ?
+                                                </div>
+                                                <div class="d-flex justify-content-end gap-2 mt-4">
+                                                    <p-button class="addBtn" [outlined]="true" severity="secondary" label="Cancel" size="small" (onClick)="closeDeleteCategory()"></p-button>
+                                                    <p-button class="addBtn" severity="danger" label="Delete" size="small" (click)="deleteCategory(menuItem.id)"></p-button>
+                                                </div>
+                                            </div>
+                                        </p-dialog>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div *ngIf="activeItem!.label == 'Items'">
+        <div class="w-100 d-flex justify-content-end">
+            <p-button class="addBtn" label="Add" icon="pi pi-plus" size="small" (onClick)="openAddItem()"></p-button>
+        </div>
+        <div class="mt-4">
+            <p-table [value]="menuCategories" dataKey="id">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="width: 5rem"></th>
+                    <th class="tableHeader">Label</th>
+                    <th class="tableHeader">Is Active</th>
+                    <th class="tableHeader">Admin Feature</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-menuItem>
+                  <tr>
+                    <td>
+                      <button type="button" pButton pRipple (click)="toggleRow(menuItem)" class="p-button-text p-button-rounded p-button-plain"
+                        [icon]="isRowExpanded(menuItem) ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                    </td>
+                    <td>{{ menuItem.label }}</td>
+                    <td>
+                        <ng-container *ngIf="menuItem.isActive; else inactiveButton">
+                            <p-button class="tickBtn" icon="pi pi-check" [rounded]="true"
+                                severity="success"></p-button>
+                        </ng-container>
+                        <ng-template #inactiveButton>
+                            <p-button class="crossBtn" icon="pi pi-times" [rounded]="true"
+                                severity="danger"></p-button>
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ng-container *ngIf="menuItem.adminFeature; else inactiveButton">
+                            <p-button class="tickBtn" icon="pi pi-check" [rounded]="true"
+                                severity="success"></p-button>
+                        </ng-container>
+                        <ng-template #inactiveButton>
+                            <p-button class="crossBtn" icon="pi pi-times" [rounded]="true"
+                                severity="danger"></p-button>
+                        </ng-template>
+                    </td>
+                  </tr>
+                  <tr *ngIf="isRowExpanded(menuItem)">
+                    <td colspan="5">
+                      <p-table [value]="menuItem.items" dataKey="id">
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th class="tableHeader">Label</th>
+                            <th class="tableHeader">Icon</th>
+                            <th class="tableHeader">Is Active</th>
+                            <th class="tableHeader">Actions</th>
+                            <!-- Add other columns as needed -->
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-subItem>
+                          <tr>
+                            <td>{{ subItem.label }}</td>
+                            <td>
+                                <span *ngIf="subItem.icon">
+                                    <i class="{{subItem.icon}}"></i>
+                                </span>
+                                <span *ngIf="!subItem.icon">
+                                    -
+                                </span>
+                            </td>
+                            <td>
+                                <ng-container *ngIf="subItem.isActive else inactiveButton">
+                                    <p-button class="tickBtn" icon="pi pi-check" [rounded]="true"
+                                        severity="success"></p-button>
+                                </ng-container>
+                                <ng-template #inactiveButton>
+                                    <p-button class="crossBtn" icon="pi pi-times" [rounded]="true"
+                                        severity="danger"></p-button>
+                                </ng-template>
+                            </td>
+                            <td>
+                                <div class="d-flex gap-4">
+                                    <div class="flex justify-content-center">
+                                        <span class="pi pi-info-circle actionBtn"
+                                            (click)="openItemInfo(menuItem, subItem)"></span>
+                                        <p-dialog
+                                            [header]="itemInfoGroup.controls['itemName'].value + ' - Item Info'"
+                                            [modal]="true" [(visible)]="showItemInfo"
+                                            [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+                                            [draggable]="false" [resizable]="false">
+                                            <div class="w-100">
+                                                <form [formGroup]="itemInfoGroup" class="d-flex gap-4 align-items-end">
+                                                    <span class="w-50 d-flex flex-column gap-2">
+                                                        <label class="formLabel" for="itemName">Item Name</label>
+                                                        <input class="w-100" pInputText id="itemName"
+                                                            formControlName="itemName" />
+                                                    </span>
+                                                    <span class="w-50 d-flex flex-column gap-2">
+                                                        <span class="d-flex gap-3 align-items-center">
+                                                            <label class="formLabel" for="icon">Icon</label>
+                                                            <div class="iconSearchBtn" (click)="openPrimeIcons()">
+                                                                <span class="pi pi-info-circle" [pTooltip]="tooltipContent" tooltipPosition="bottom"></span>
+                                                                <ng-template #tooltipContent>
+                                                                    <div class="flex align-items-center">
+                                                                        <span> Click here to search for icons </span>
+                                                                    </div>
+                                                                </ng-template>
+                                                            </div>
+                                                        </span>
+                                                        <input class="w-100" pInputText id="icon"
+                                                            formControlName="icon" />
+                                                    </span>
+                                                    <span class="w-50 d-flex flex-column gap-2">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value=""
+                                                                formControlName="isActive" id="flexCheckDefault">
+                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                                Is Active
+                                                            </label>
+                                                        </div>
+                                                    </span>
+                                                </form>
+                                            </div>
+                                        </p-dialog>
+                                    </div>
+                                    <div class="flex justify-content-center">
+                                        <span class="pi pi-file-edit actionBtn" (click)="openEditItem(menuItem, subItem)"></span>
+                                        <p-dialog [header]="itemInfoGroup.controls['itemName'].value + ' - Edit Item'" [modal]="true" [(visible)]="showEditItem"
+                                            [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '50vw' }"
+                                            [draggable]="false" [resizable]="false">
+                                            <div class="w-100">
+                                                <form [formGroup]="itemInfoGroup" class="d-flex gap-4 align-items-end">
+                                                    <span class="w-50 d-flex flex-column gap-2">
+                                                        <label class="formLabel" for="itemName">Item Name</label>
+                                                        <input class="w-100" pInputText id="itemName"
+                                                            formControlName="itemName" />
+                                                    </span>
+                                                    <span class="w-50 d-flex flex-column gap-2">
+                                                        <span class="d-flex gap-3 align-items-center">
+                                                            <label class="formLabel" for="icon">Icon</label>
+                                                            <div class="iconSearchBtn" (click)="openPrimeIcons()">
+                                                                <span class="pi pi-info-circle" [pTooltip]="tooltipContent" tooltipPosition="bottom"></span>
+                                                                <ng-template #tooltipContent>
+                                                                    <div class="flex align-items-center">
+                                                                        <span> Click here to search for icons </span>
+                                                                    </div>
+                                                                </ng-template>
+                                                            </div>
+                                                        </span>
+                                                        <input class="w-100" pInputText id="icon"
+                                                            formControlName="icon" />
+                                                    </span>
+                                                    <span class="w-50 d-flex flex-column gap-2">
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value=""
+                                                                formControlName="isActive" id="flexCheckDefault">
+                                                            <label class="form-check-label" for="flexCheckDefault">
+                                                                Is Active
+                                                            </label>
+                                                        </div>
+                                                    </span>
+                                                </form>
+                                                <div class="d-flex justify-content-end gap-2 mt-4">
+                                                    <p-button class="addBtn" [outlined]="true" severity="secondary" label="Cancel" size="small" (onClick)="closeEditItem()"></p-button>
+                                                    <p-button class="addBtn" label="Update" size="small" (onClick)="editItem(menuItem, subItem.id)"></p-button>
+                                                </div>
+                                            </div>
+                                        </p-dialog>
+                                    </div>
+                                    <div class="flex justify-content-center">
+                                        <span class="pi pi-trash actionBtn" (click)="openDeleteItem()"></span>
+                                        <p-dialog header="Delete Confirmation" [modal]="true" [(visible)]="showDeleteItem"
+                                            [breakpoints]="{ '960px': '75vw' }" [style]="{ width: '25vw' }"
+                                            [draggable]="false" [resizable]="false">
+                                            <div>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <span class="pi pi-info-circle"></span>
+                                                    Are you sure, you want to delete {{subItem.label}} ?
+                                                </div>
+                                                <div class="d-flex justify-content-end gap-2 mt-4">
+                                                    <p-button class="addBtn" [outlined]="true" severity="secondary" label="Cancel" size="small" (onClick)="closeDeleteItem()"></p-button>
+                                                    <p-button class="addBtn" severity="danger" label="Delete" size="small" (click)="deleteItem(menuItem.label, subItem.id)"></p-button>
+                                                </div>
+                                            </div>
+                                        </p-dialog>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- Add other columns as needed -->
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                          <tr>
+                            <td colspan="...">There are no items for this category yet.</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+        </div>
+    </div>
+</div>
