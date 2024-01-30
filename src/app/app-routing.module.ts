@@ -4,12 +4,18 @@ import { LoginComponent } from './staff/login/login.component';
 import { authGuard } from './auth.guard';
 import { EventsLandingComponent } from './public/events/events-landing/events-landing.component';
 import { ComingSoonComponent } from './public/coming-soon/coming-soon.component';
+import { HomeComponent } from './staff/home/home.component';
 
 const routes: Routes = [
   {
     path: 'staff',
     component: LoginComponent,
     // canActivate: [authGuard]
+  },
+  {
+    path: 'staff/home',
+    component: HomeComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'customer/eventshome',

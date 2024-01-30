@@ -10,6 +10,7 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { StaffModule } from './staff/staff.module';
 import { AngularFireModule } from '@angular/fire/compat';
 import { WindowService } from './staff/window.service';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 // import { AngularFireModule } from '@angular/fire/compat/';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { WindowService } from './staff/window.service';
     PublicModule,
     StaffModule,
     AppRoutingModule,
+    ProgressSpinnerModule,
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyCUSZuELhsjuI1XRJ95hmi3sC-_BG5lFhU",
       authDomain: "fruitify-de474.firebaseapp.com",
