@@ -1,0 +1,45 @@
+<div>
+    <p-tabMenu styleClass="tabMenu" [model]="items" [activeItem]="activeItem"
+        (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
+        <div *ngIf="ordersListLoading" style="height: 50vh;" class="w-100 d-flex justify-content-center align-items-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+        </div>
+        <div  class="cardHolder" *ngIf="activeItem!.label == 'Dine In' && !ordersListLoading">
+            <div class="orderCard d-flex flex-column justify-content-between" *ngFor="let order of activeOrders">
+                <div class="topBar d-flex justify-content-between">
+                    <div>
+                        Table No : {{order.tableNo}}
+                    </div>
+                    <div>
+                        KOT No : {{order.kot}}
+                    </div>
+                </div>
+                <span>
+                    Status : {{order.status ? order.status : "N/A"}}
+                </span>
+                <span>
+                    Progress: <p-progressBar class="progressBarContainer" [value]="getOrderStatus(order)"></p-progressBar>
+                </span>
+            </div>
+        </div>    
+        <div class="cardHolder" *ngIf="activeItem!.label == 'Online' && !ordersListLoading">
+            <div class="orderCard d-flex flex-column justify-content-between" *ngFor="let order of activeOrders">
+                <div class="topBar d-flex justify-content-between">
+                    <div>
+                        Source : {{order.tableNo}}
+                    </div>
+                    <div>
+                        KOT No : {{order.kot}}
+                    </div>
+                </div>
+                <span>
+                    Status : {{order.status ? order.status : "N/A"}}
+                </span>
+                <span>
+                    Progress: <p-progressBar class="progressBarContainer" [value]="getOrderStatus(order)"></p-progressBar>
+                </span>
+            </div>
+        </div>    
+</div>

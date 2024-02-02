@@ -30,6 +30,12 @@
             <div *ngIf="activeMenuItem == 'Nav Items'">
                 <app-nav-items [menuCategories]="menu"></app-nav-items>
             </div>
+            <div *ngIf="activeMenuItem == 'Active Orders'">
+                <app-billing></app-billing>
+            </div>
+            <div *ngIf="activeMenuItem == 'Past Orders'">
+                <app-past-orders></app-past-orders>
+            </div>
         </div>
     </div>
 </div>

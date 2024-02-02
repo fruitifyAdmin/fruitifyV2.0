@@ -39,33 +39,12 @@ export class HomeComponent {
       this.isMenuLoaded = false;
       res.forEach((menuCategory: any) => {
         this.menu.push(menuCategory);
-        // this.staffService.menuCategoryCollection.doc("menuCategories").collection(menuCategory['label']).valueChanges({idField: 'id'}).subscribe((res: any) => {
-        //   var items: any = [];
-        //   this.menu[adminIndex].items = []
-        //   res.forEach((item: any) => {
-        //       items.push(item);
-        //   })
-        //   this.menu[adminIndex]['items'] = items;
-        //   if(!this.activeMenuItem) {
-        //     if(this.menu[0].items[0]) {
-        //       this.activeMenuItem = this.menu[0].items[0].label
-        //     } else {
-        //       this.activeMenuItem = this.menu[1].items[0].label
-        //     }
-        //   }
-        // })
         this.addSubMenu(menuCategory);
       })
       this.menu = this.menu.sort((a: any, b: any) => a.label.localeCompare(b.label))
-      //   ...item,
-      //   items: item.items.sort((a: any, b: any) => a.label.localeCompare(b.label))
-      // }));
-      
-      // console.log(sortedData);
     }, err => {
           console.warn(err);
     }, () => {
-      console.warn('hello');
       
     });
 }

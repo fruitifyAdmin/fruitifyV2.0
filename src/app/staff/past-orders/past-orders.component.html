@@ -1,0 +1,51 @@
+<div>
+    <p-tabMenu styleClass="tabMenu" [model]="items" [activeItem]="activeItem"
+        (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
+        <div class="w-100 d-flex justify-content-end mb-4">
+            <p-calendar [(ngModel)]="date2" [iconDisplay]="'input'" [showIcon]="true" (ngModelChange)="updateSelectedDate()"></p-calendar>
+        </div>
+        <div *ngIf="ordersListLoading" style="height: 50vh;" class="w-100 d-flex justify-content-center align-items-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+        </div>
+    <div *ngIf="activeItem!.label == 'Dine In' && !ordersListLoading">
+        <div  class="cardHolder" *ngIf="activeItem!.label == 'Dine In' && !ordersListLoading">
+            <div class="orderCard d-flex flex-column justify-content-between" *ngFor="let order of ordersList">
+                <div class="topBar d-flex justify-content-between">
+                    <div>
+                        Order No : {{order.orderId}}
+                    </div>
+                    <div>
+                        Total Amount : {{order.totalAmount}}
+                    </div>
+                </div>
+                <span>
+                    Status : {{order.status ? order.status : "N/A"}}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="activeItem!.label == 'Online' && !ordersListLoading">
+        <div  class="cardHolder" *ngIf="activeItem!.label == 'Online' && !ordersListLoading">
+            <div class="orderCard d-flex flex-column justify-content-between" *ngFor="let order of ordersList">
+                <div class="topBar d-flex justify-content-between">
+                    <div>
+                        Order No : {{order.orderId}}
+                    </div>
+                    <div>
+                        Total Amount : {{order.totalAmount}}
+                    </div>
+                </div>
+                <div class="bottomBar d-flex justify-content-between">
+                    <span>
+                        Status : {{order.status ? order.status : "N/A"}}
+                    </span>
+                    <span>
+                        Source : {{order.source}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
