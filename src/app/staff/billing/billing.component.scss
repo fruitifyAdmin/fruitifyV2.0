@@ -1,0 +1,34 @@
+:host ::ng-deep {
+    .tabMenu {
+        .p-menuitem-link {
+            text-decoration: none;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        .p-tabmenuitem.p-highlight .p-menuitem-link {
+            color: #3B82F6 !important;
+            font-size: 0.85rem;
+        }
+    }
+
+    .progressBarContainer {
+        .p-progressbar .p-progressbar-value {
+            background-color: #32733E;
+        }
+    }
+}
+
+.cardHolder {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 350px));
+}
+
+.orderCard {
+    padding: 1rem;
+    height: 200px;
+    border-radius: 20px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 8px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    font-weight: 600;
+}

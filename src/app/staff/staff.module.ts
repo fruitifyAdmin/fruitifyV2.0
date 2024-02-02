@@ -18,6 +18,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { BillingComponent } from './billing/billing.component';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { PastOrdersComponent } from './past-orders/past-orders.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,9 @@ import { InputTextModule } from 'primeng/inputtext';
     HomeComponent,
     SidebarComponent,
     AppMenuitemComponent,
-    NavItemsComponent
+    NavItemsComponent,
+    BillingComponent,
+    PastOrdersComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +46,9 @@ import { InputTextModule } from 'primeng/inputtext';
     FormsModule,
     ReactiveFormsModule,
     DropdownModule,
-    InputTextModule
+    InputTextModule,
+    ProgressBarModule,
+    CalendarModule
   ],
   providers: [
     WindowService

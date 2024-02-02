@@ -22,13 +22,17 @@ export class StaffService {
     measurementId: "G-90LHSTGEY4"
   }
 
+  months: any[] = ["Jan", "Feb", 'Mar', "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+
   userCollection: AngularFirestoreCollection;
   menuCategoryCollection: AngularFirestoreCollection;
+  ordersCollection: AngularFirestoreCollection;
 
   constructor(private fireStore: AngularFirestore, private firebaseAuth: AngularFireAuth, private windowservice: WindowService) {
     // this.windowRef = this.windowservice.windowRef;
     this.userCollection = fireStore.collection('Staff');
     this.menuCategoryCollection = fireStore.collection('menuCollection');
+    this.ordersCollection = fireStore.collection('Orders');
   }
 
   ngOnInit() {
@@ -120,4 +124,17 @@ export class StaffService {
     return this.menuCategoryCollection.doc('menuCategories').collection(categoryName).get();
   }
 
+  getPastOrders(category: any, timeStamp: any) {
+    var date = new Date(timeStamp)
+    var dateVal = date.getDate().toString()
+    if(parseInt(dateVal) < 10) {
+      dateVal = '0'+dateVal.toString();
+    }
+    var month = (date.getMonth()+1).toString()
+    if(parseInt(month) < 10) {
+      month = '0'+month;
+    }
+    var completeDate = dateVal + '-' + month + '-' + date.getFullYear().toString()    
+    return this.ordersCollection.doc(category).collection(date.getFullYear().toString()).doc(this.months[date.getMonth()]).collection(completeDate).get()
+  }
 }
