@@ -17,6 +17,7 @@ export class NavItemsComponent implements OnInit {
   selectedCategortName: string | undefined;
   @Input() menuCategories: any;
   showAddCategory: boolean = false;
+  showAddItem: boolean = false;
   showCategoryInfo: boolean = false;
   showItemInfo: boolean = false;
   showEditCategory: boolean = false;
@@ -24,14 +25,23 @@ export class NavItemsComponent implements OnInit {
   showDeleteCategory: boolean = false;
   showDeleteItem: boolean = false;
   addCategoryGroup: FormGroup | any;
+  addItemGroup: FormGroup | any;
   categoryInfoGroup: FormGroup | any;
   itemInfoGroup: FormGroup | any;
   formGroup: FormGroup | any;
   expandedRows: string[] = [];
+  menuListArr: any[] = [];
 
   constructor(private fb: FormBuilder, private staffService: StaffService) {}
 
   ngOnInit() {
+    this.menuCategories.forEach((menuItem: any) => {
+      var obj = {
+        name: menuItem.label,
+        value: menuItem.label
+      }
+      this.menuListArr.push(obj);
+    });
     this.items = [
       { label: 'Categories', icon: 'pi pi-fw pi-folder' },
       { label: 'Items', icon: 'pi pi-fw pi-file' },
@@ -41,6 +51,12 @@ export class NavItemsComponent implements OnInit {
       categoryName: [null],
       isActive: [false],
       adminFeature: [false],
+    })
+    this.addItemGroup = this.fb.group({
+      categoryName: [null],
+      itemName: [null],
+      icon: [null],
+      isActive: [false],
     })
     this.categoryInfoGroup = this.fb.group({
       categoryName: [null],
@@ -61,6 +77,14 @@ export class NavItemsComponent implements OnInit {
   openAddCategory() {
     this.showAddCategory = true;
   }
+  
+  closeAddCategory() {
+    this.showAddCategory = false;
+  }
+
+  closeAddItem() {
+    this.showAddItem = false;
+  }
 
   addCategory() {
     var obj = {
@@ -70,6 +94,22 @@ export class NavItemsComponent implements OnInit {
       "timeStamp": this.todayDate.value?.valueOf()
     }
     this.staffService.addSideMenuCategories(obj);
+    setTimeout(() => {
+      this.showAddCategory = false
+    }, 100);
+  }
+
+  addItem() {
+    var obj = {
+      "label": this.addItemGroup.controls['itemName'].value,
+      "icon": this.addItemGroup.controls['icon'].value,
+      "isActive": this.addItemGroup.controls['isActive'].value,
+      "timeStamp": this.todayDate.value?.valueOf()
+    }
+    this.staffService.addSideMenuItem(this.addItemGroup.controls['categoryName'].value ,obj);
+    setTimeout(() => {
+      this.closeAddItem();
+    }, 100);
   }
 
   openCategoryInfo(selectedCategory: any) {
@@ -98,6 +138,9 @@ export class NavItemsComponent implements OnInit {
     this.categoryInfoGroup.controls['categoryName'].setValue(selectedCategory.label);
     this.categoryInfoGroup.controls['isActive'].setValue(selectedCategory.isActive);
     this.categoryInfoGroup.controls['adminFeature'].setValue(selectedCategory.adminFeature);
+    this.categoryInfoGroup.controls['categoryName'].enable();
+    this.categoryInfoGroup.controls['isActive'].enable();
+    this.categoryInfoGroup.controls['adminFeature'].enable();
   }
 
   openEditItem(selectedCategory: any, selectedItem: any) {
@@ -163,14 +206,16 @@ export class NavItemsComponent implements OnInit {
 
   deleteCategory(id: any) {
     this.staffService.deleteSideMenuCategories(id);
+    this.showDeleteCategory = false;
   }
 
   deleteItem(selectedCategory: any, id: any) {
     this.staffService.deleteSideMenuItem(selectedCategory, id);
+    this.showDeleteItem = false;
   }
 
   openAddItem() {
-
+    this.showAddItem = true;
   }
 
   toggleRow(item: any): void {
