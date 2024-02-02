@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ThemeService } from '../../theme.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { StaffService } from '../staff.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -32,28 +33,82 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    this.staffService.menuCategoryCollection.doc("menuCategories").collection("categoriesCollection").valueChanges({idField: 'id'}).subscribe((res: any) => {
+    this.staffService.menuCategoryCollection.doc("menuCategories").collection("categoriesCollection").valueChanges({idField: 'id'})
+    .subscribe((res: any) => {
       this.menu = [];
       this.isMenuLoaded = false;
       res.forEach((menuCategory: any) => {
         this.menu.push(menuCategory);
-        const adminIndex = this.menu.findIndex(item => item.label === menuCategory['label']);
-        this.staffService.menuCategoryCollection.doc("menuCategories").collection(menuCategory['label']).valueChanges({idField: 'id'}).subscribe((res: any) => {
-          var items: any = [];
-          this.menu[adminIndex].items = []
-          res.forEach((item: any) => {
-              items.push(item);
-          })
-          this.menu[adminIndex]['items'] = items;
-          if(!this.activeMenuItem) {
-            this.activeMenuItem = this.menu[0].items[0].label
-          }
-          this.isMenuLoaded = true;
-        })
+        // this.staffService.menuCategoryCollection.doc("menuCategories").collection(menuCategory['label']).valueChanges({idField: 'id'}).subscribe((res: any) => {
+        //   var items: any = [];
+        //   this.menu[adminIndex].items = []
+        //   res.forEach((item: any) => {
+        //       items.push(item);
+        //   })
+        //   this.menu[adminIndex]['items'] = items;
+        //   if(!this.activeMenuItem) {
+        //     if(this.menu[0].items[0]) {
+        //       this.activeMenuItem = this.menu[0].items[0].label
+        //     } else {
+        //       this.activeMenuItem = this.menu[1].items[0].label
+        //     }
+        //   }
+        // })
+        this.addSubMenu(menuCategory);
       })
+      this.menu = this.menu.sort((a: any, b: any) => a.label.localeCompare(b.label))
+      //   ...item,
+      //   items: item.items.sort((a: any, b: any) => a.label.localeCompare(b.label))
+      // }));
+      
+      // console.log(sortedData);
     }, err => {
           console.warn(err);
+    }, () => {
+      console.warn('hello');
+      
+    });
+}
+
+  addSubMenu(menuCategory: any) {
+    this.staffService.menuCategoryCollection.doc("menuCategories").collection(menuCategory['label']).valueChanges({ idField: 'id' }).subscribe((res: any) => {
+      var items: any = [];
+      const adminIndex = this.menu.findIndex(item => item.label === menuCategory['label']);
+      this.menu[adminIndex].items = []
+      res.forEach((item: any) => {
+        items.push(item);
+      })
+      items = items.sort((a: any, b: any) => a.label.localeCompare(b.label))
+      this.menu[adminIndex]['items'] = items;
+      setTimeout(() => {
+        if (!this.activeMenuItem) {
+          if (this.menu[0].items[0]) {
+            this.activeMenuItem = this.menu[0].items[0].label
+          } else {
+            this.activeMenuItem = this.menu[1].items[0].label
+          }
+        }
+        this.isMenuLoaded = true;
+      }, 100);
     })
+  }
+
+sortMenu() {
+  setTimeout(() => {
+    this.menu = this.menu.sort((a, b) => a.label.localeCompare(b.label));
+    this.menu = this.menu.map(item => ({
+      ...item,
+      items: item.items.sort((a: any, b: any) => a.label.localeCompare(b.label))
+    }));
+    if(!this.activeMenuItem) {
+      if(this.menu[0].items[0]) {
+        this.activeMenuItem = this.menu[0].items[0].label
+      } else {
+        this.activeMenuItem = this.menu[1].items[0].label
+      }
+    }
+    this.isMenuLoaded = true;
+  }, 500);
 }
 
   toggleTheme() {

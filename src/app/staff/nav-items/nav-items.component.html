@@ -32,8 +32,8 @@
                         </div>
                     </form>
                     <div class="d-flex justify-content-end gap-2 mt-4">
-                        <p-button class="addBtn" label="Reset" icon="pi pi-plus" size="small" (onClick)="openAddCategory()"></p-button>
-                        <p-button class="addBtn" label="Add" icon="pi pi-plus" size="small" (onClick)="addCategory()"></p-button>
+                        <p-button class="addBtn" label="Cancel" [outlined]="true" severity="secondary" size="small" (onClick)="closeAddCategory()"></p-button>
+                        <p-button class="addBtn" label="Add" size="small" (onClick)="addCategory()"></p-button>
                     </div>
                 </div>
             </p-dialog>
@@ -173,6 +173,43 @@
     <div *ngIf="activeItem!.label == 'Items'">
         <div class="w-100 d-flex justify-content-end">
             <p-button class="addBtn" label="Add" icon="pi pi-plus" size="small" (onClick)="openAddItem()"></p-button>
+            <p-dialog header="Add New Item" [modal]="true" [(visible)]="showAddItem" [breakpoints]="{ '960px': '75vw' }"
+                [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+                <div class="w-100">
+                    <form [formGroup]="addItemGroup" class="d-flex flex-column gap-4">
+                        <div class="row">
+                            <span class="w-50 d-flex flex-column gap-2">
+                                <label class="formLabel" for="categoryName">Category Name</label>
+                                <p-dropdown class="menuArrDrpDwn" [options]="menuListArr" formControlName="categoryName" optionLabel="name" placeholder="Select a Category"></p-dropdown>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="w-50 d-flex flex-column gap-2">
+                                <label class="formLabel" for="itemName">Item Name</label>
+                                <input class="w-100" type="text" pInputText id="itemName" formControlName="itemName"/>
+                            </span>
+                            <span class="w-50 d-flex flex-column gap-2">
+                                <label class="formLabel" for="icon">Icon</label>
+                                <input class="w-100" pInputText id="icon"
+                                    formControlName="icon" />
+                            </span>
+                            <div class="d-flex justify-content-start gap-3 mt-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value=""
+                                        formControlName="isActive" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Is Active
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <p-button class="addBtn" label="Cancel" [outlined]="true" severity="secondary" size="small" (onClick)="closeAddItem()"></p-button>
+                        <p-button class="addBtn" label="Add" size="small" (onClick)="addItem()"></p-button>
+                    </div>
+                </div>
+            </p-dialog>
         </div>
         <div class="mt-4">
             <p-table [value]="menuCategories" dataKey="id">

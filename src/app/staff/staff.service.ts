@@ -96,6 +96,10 @@ export class StaffService {
     return this.menuCategoryCollection.doc('menuCategories').collection('categoriesCollection').doc().set(obj);
   }
 
+  addSideMenuItem(categoryName: any, obj: any) {
+    return this.menuCategoryCollection.doc('menuCategories').collection(categoryName.name).doc().set(obj);
+  }
+
   editSideMenuCategories(obj: any, id: any) {
     return this.menuCategoryCollection.doc('menuCategories').collection('categoriesCollection').doc(id).update(obj);
   }
