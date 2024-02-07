@@ -39,3 +39,11 @@
         </div>
     </div>
 </div>
+
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [dismissableMask]="true">
+    <ng-template pTemplate="headless">
+        <div class="w-100">
+            <p-autoComplete placeholder="Quick Search" [(ngModel)]="selectedItem" [suggestions]="suggestions" (completeMethod)="search($event)"></p-autoComplete>
+        </div>
+    </ng-template>
+</p-dialog>

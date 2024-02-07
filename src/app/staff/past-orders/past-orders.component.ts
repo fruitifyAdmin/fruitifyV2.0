@@ -24,8 +24,8 @@ export class PastOrdersComponent {
 
   ngOnInit() {
     this.items = [
-      { label: 'Dine In', icon: 'fa-solid fa-truck' },
-      { label: 'Online', icon: 'fa-solid fa-bowl-food' },
+      { label: 'Dine In', icon: 'fa-solid fa-bowl-food' },
+      { label: 'Online', icon: 'fa-solid fa-truck' },
     ];
     this.activeItem = this.items[0];
     this.date2 = this.todayDate.value;

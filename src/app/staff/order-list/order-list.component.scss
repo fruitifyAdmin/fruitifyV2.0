@@ -1,0 +1,35 @@
+.list-group-item span {
+    cursor: pointer;
+}
+
+.itemCompleted {
+    text-decoration: line-through;
+    margin-left: 0.5rem;
+    color: grey;
+}
+
+.itemOnGoing {
+    margin-left: 0.5rem;
+}
+
+.dataTitle {
+    width: 35%;
+}
+.tableDeatils {
+    width: 25%;
+}
+
+.searchBtn:hover {
+    background: transparent;
+    color: black;
+}
+
+.rmBtn {
+    cursor: pointer;
+}
+
+table {
+    button {
+        --bs-btn-padding-y: 0rem !important
+    }
+}

@@ -22,6 +22,9 @@ import { BillingComponent } from './billing/billing.component';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { PastOrdersComponent } from './past-orders/past-orders.component';
 import { CalendarModule } from 'primeng/calendar';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { OrderListComponent } from './order-list/order-list.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { CalendarModule } from 'primeng/calendar';
     AppMenuitemComponent,
     NavItemsComponent,
     BillingComponent,
-    PastOrdersComponent
+    PastOrdersComponent,
+    OrderListComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +52,9 @@ import { CalendarModule } from 'primeng/calendar';
     DropdownModule,
     InputTextModule,
     ProgressBarModule,
-    CalendarModule
+    CalendarModule,
+    RadioButtonModule,
+    AutoCompleteModule,
   ],
   providers: [
     WindowService

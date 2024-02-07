@@ -25,14 +25,18 @@ export class StaffService {
   months: any[] = ["Jan", "Feb", 'Mar', "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
 
   userCollection: AngularFirestoreCollection;
+  customerCollection: AngularFirestoreCollection;
   menuCategoryCollection: AngularFirestoreCollection;
   ordersCollection: AngularFirestoreCollection;
+  mainMenuCollectionOld: AngularFirestoreCollection;
 
   constructor(private fireStore: AngularFirestore, private firebaseAuth: AngularFireAuth, private windowservice: WindowService) {
     // this.windowRef = this.windowservice.windowRef;
     this.userCollection = fireStore.collection('Staff');
     this.menuCategoryCollection = fireStore.collection('menuCollection');
     this.ordersCollection = fireStore.collection('Orders');
+    this.customerCollection = fireStore.collection('Users');
+    this.mainMenuCollectionOld = fireStore.collection('Menu');
   }
 
   ngOnInit() {
@@ -136,5 +140,13 @@ export class StaffService {
     }
     var completeDate = dateVal + '-' + month + '-' + date.getFullYear().toString()    
     return this.ordersCollection.doc(category).collection(date.getFullYear().toString()).doc(this.months[date.getMonth()]).collection(completeDate).get()
+  }
+
+  getFoodMenuCategories() {
+    return this.mainMenuCollectionOld.get();
+  }
+
+  getFoodMenuItems(selectedCategory: any) {
+    return this.mainMenuCollectionOld.doc(selectedCategory).collection("Items").get();
   }
 }
