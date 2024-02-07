@@ -15,6 +15,7 @@ export class NavItemsComponent implements OnInit {
   items: MenuItem[] | undefined;
   activeItem: MenuItem | undefined;
   selectedCategortName: string | undefined;
+  selectedItem: any;
   @Input() menuCategories: any;
   showAddCategory: boolean = false;
   showAddItem: boolean = false;
@@ -146,6 +147,7 @@ export class NavItemsComponent implements OnInit {
   openEditItem(selectedCategory: any, selectedItem: any) {
     this.showEditItem = true
     const adminIndex = selectedCategory.items.findIndex((item: any) => item.label === selectedItem['label']);
+    this.selectedItem = selectedCategory.items[adminIndex];
     this.itemInfoGroup.controls['itemName'].setValue(selectedCategory.items[adminIndex].label);
     this.itemInfoGroup.controls['icon'].setValue(selectedCategory.items[adminIndex].icon);
     this.itemInfoGroup.controls['isActive'].setValue(selectedCategory.items[adminIndex].isActive);
@@ -174,7 +176,7 @@ export class NavItemsComponent implements OnInit {
       "isActive": this.itemInfoGroup.controls['isActive'].value ? this.itemInfoGroup.controls['isActive'].value : false,
       "timeStamp": this.todayDate.value?.valueOf()
     }
-    this.staffService.editSideMenuItem(selectedCategory.label ,obj, id);
+    this.staffService.editSideMenuItem(selectedCategory.label ,obj, this.selectedItem?.id);
     setTimeout(() => {
       this.showEditItem = false
     }, 10);
@@ -210,7 +212,7 @@ export class NavItemsComponent implements OnInit {
   }
 
   deleteItem(selectedCategory: any, id: any) {
-    this.staffService.deleteSideMenuItem(selectedCategory, id);
+    this.staffService.deleteSideMenuItem(selectedCategory, this.selectedItem.id);
     this.showDeleteItem = false;
   }
 

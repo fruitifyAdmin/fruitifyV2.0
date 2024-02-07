@@ -1,6 +1,92 @@
 <div>
     <p-tabMenu styleClass="tabMenu" [model]="items" [activeItem]="activeItem"
         (activeItemChange)="onActiveItemChange($event)"></p-tabMenu>
+        <div class="d-flex w-100 justify-content-end">
+            <p-button class="addBtn" label="Add" icon="pi pi-plus" size="small" (onClick)="openAddBill()"></p-button>
+            <p-dialog header="Add New Category" [modal]="true" [(visible)]="showAddBill" [breakpoints]="{ '960px': '80vw' }"
+                [style]="{ width: '75vw' }" [draggable]="false" [resizable]="false">
+                <div class="w-100">
+                    <form [formGroup]="addBillGroup" class="d-flex gap-4 flex-column">
+                        <div class="d-flex w-100 justify-content-end">
+                            <p-calendar formControlName="orderDate" [iconDisplay]="'input'" [showIcon]="true"></p-calendar>
+                        </div>
+                        <div>
+                            <label class="formLabel mb-2">Order Type</label>
+                            <div class="d-flex flex-wrap gap-3">
+                                <div class="d-flex align-items-center gap-1">
+                                    <p-radioButton name="orderType" value="Dine In" formControlName="orderType"
+                                        inputId="orderType1"></p-radioButton>
+                                    <label for="orderType1" class="ml-2">Dine In</label>
+                                </div>
+                        
+                                <div class="d-flex align-items-center gap-1">
+                                    <p-radioButton name="orderType" value="Online" formControlName="orderType"
+                                        inputId="orderType2"></p-radioButton>
+                                    <label for="orderType2" class="ml-2">Online</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-4" *ngIf="addBillGroup.controls['orderType'].value == 'Dine In'">
+                            <span class="d-flex flex-column gap-2">
+                                <label class="formLabel" for="tableNo">Table No</label>
+                                <input class="w-100" pInputText id="tableNo"
+                                    formControlName="tableNo" />
+                            </span>
+                        </div>
+                        <div class="d-flex gap-4" *ngIf="addBillGroup.controls['orderType'].value == 'Online'">
+                            <span class="d-flex flex-column gap-2">
+                                <label class="formLabel">Order Source</label>
+                                <p-dropdown class="menuArrDrpDwn" [options]="onlineSourceArr" formControlName="tableNo" optionLabel="name" placeholder="Select a source"></p-dropdown>
+                            </span>
+                            <span class="d-flex flex-column gap-2">
+                                <label class="formLabel" for="orderId">Order Id</label>
+                                <input class="w-100" pInputText id="orderId"
+                                    formControlName="orderId" />
+                            </span>
+                        </div>
+                        <div class="d-flex gap-4">
+                            <span class="d-flex flex-column gap-2">
+                                <label class="formLabel" for="customerMobile">Customer Mobile</label>
+                                <p-autoComplete formControlName="customerMobile" [suggestions]="filteredUsers" (completeMethod)="filterByMobile($event)" (onSelect)="updateUserDetails($event)" field="userMobile"></p-autoComplete>
+                            </span>
+                            <span class="d-flex flex-column gap-2">
+                                <label class="formLabel" for="customerName">Customer Name</label>
+                                <p-autoComplete formControlName="customerName" [suggestions]="filteredUsers" (completeMethod)="filterByName($event)" (onSelect)="updateUserDetails($event)" field="userName"></p-autoComplete>
+                            </span>
+                        </div>
+                        <div class="orderContainer mt-2 mb-4">
+                            <app-order-list (itemsListData)="updateItems($event)" [items]="itemsList"></app-order-list>
+                        </div>
+                        <!-- <span class="w-50 d-flex flex-column gap-2">
+                            <label class="formLabel" for="categoryName">Category Name</label>
+                            <input class="w-100" pInputText id="categoryName"
+                                formControlName="categoryName" />
+                        </span>
+                        <div class="d-flex justify-content-start gap-3 mt-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value=""
+                                    formControlName="isActive" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Is Active
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value=""
+                                    formControlName="adminFeature" id="flexCheckChecked"
+                                    checked>
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    Admin Feature
+                                </label>
+                            </div>
+                        </div> -->
+                    </form>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <p-button class="addBtn" label="Cancel" [outlined]="true" severity="secondary" size="small" (onClick)="closeAddItem()"></p-button>
+                        <p-button class="addBtn" label="Add" size="small" (onClick)="addBill()"></p-button>
+                    </div>
+                </div>
+            </p-dialog>
+        </div>
         <div *ngIf="ordersListLoading" style="height: 50vh;" class="w-100 d-flex justify-content-center align-items-center">
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>

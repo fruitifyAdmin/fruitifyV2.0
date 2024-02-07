@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ThemeService } from '../../theme.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { StaffService } from '../staff.service';
 import { finalize } from 'rxjs';
+import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,12 @@ export class HomeComponent {
   isDarkTheme = false;
   themeSwitch = false;
   isMenuLoaded = false;
+  private slashKeyPressed = false;
+  private kKeyPressed = false;
+  visible: boolean = false;
+  items: any[] | undefined;
+  selectedItem: any;
+  suggestions: any[] = [];
   menu: any[] = [];
   activeMenuItem = "";
 
@@ -110,4 +117,36 @@ sortMenu() {
   updateActiveMenu(menuItem: string) {
     this.activeMenuItem = menuItem
   }
+
+  closeDialog() {
+    this.visible = false;
 }
+
+search(event: AutoCompleteCompleteEvent) {
+  this.suggestions = [...Array(10).keys()].map(item => event.query + '-' + item);
+}
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === '/') {
+      this.slashKeyPressed = true;
+    } else if (event.key === 'k') {
+      this.kKeyPressed = true;
+    }
+    if (this.slashKeyPressed && this.kKeyPressed) {
+      this.visible = true;
+      console.log('You pressed the / and k key!');
+    }
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeyUpEvent(event: KeyboardEvent) {
+    if (event.key === '/') {
+      this.slashKeyPressed = false;
+    } else if (event.key === 'k') {
+      this.kKeyPressed = false;
+    }
+  }
+
+}
+

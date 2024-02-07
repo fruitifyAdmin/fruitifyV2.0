@@ -1,0 +1,70 @@
+<div class="card shadow">
+    <div class="card-header text-center">
+        <div class="titleText mt-3 mb-2 pt-2">
+            Order Items
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="d-flex gap-4">
+            <span class="d-flex flex-column gap-2">
+                <label class="formLabel" for="menuItemControl">Item Name</label>
+                <p-autoComplete [formControl]="menuItemControl" [suggestions]="filteredMenuItems"
+                (completeMethod)="filterByName($event)" field="itemName"
+                (onSelect)="updateItemDetails()"></p-autoComplete>            </span>
+            <span class="d-flex flex-column gap-2">
+                <label class="formLabel" for="itemUnitPrice">Item Unit Price</label>
+                <input class="w-100" pInputText id="itemUnitPrice"
+                [(ngModel)]="itemUnitPrice" />
+            </span>
+            <span class="d-flex flex-column gap-2">
+                <label class="formLabel" for="itemQuantity">Item Quantity</label>
+                <input class="w-100" pInputText id="itemQuantity"
+                [(ngModel)]="itemQuantity" />
+            </span>
+            <div class="mt-4 d-flex w-25 justify-content-end">
+                <button type="button" class="btn btn-success" (click)="addItem()"
+                    [disabled]="itemUnitPrice == '' && itemQuantity == ''">Add Item</button>
+            </div>
+        </div>
+        <div class="mt-4">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Status</th>
+                        <th scope="col">Item Name</th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Item Total</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of orderItems.length > 0 ? orderItems : itemsList">
+                        <th scope="row">
+                            <i class="text-success" (click)="onStatusChange(item.itemName, !item.isDone)"
+                                [ngClass]="item.isDone ? 'fa-solid fa-circle-check' : 'fa-regular fa-circle'"></i>
+                        </th>
+                        <td [ngClass]="item.isDone ? 'itemCompleted' : 'itemOnGoing'" class="itemName">{{item.itemName}}
+                        </td>
+                        <td class="d-flex gap-2" [ngClass]="item.isDone ? 'itemCompleted' : 'itemOnGoing'"
+                            class="itemName">{{item.itemUnitPrice}}</td>
+                        <td [ngClass]="item.isDone ? 'itemCompleted' : 'itemOnGoing'" class="itemName">
+                            <button type="button" class="btn btn-light" (click)="changeQuantity(item.itemName, 'dec')"
+                                [disabled]="item.itemQuantity == '1'">-</button>
+                            <span class="mx-2">{{item.itemQuantity}}</span>
+                            <button type="button" class="btn btn-light"
+                                (click)="changeQuantity(item.itemName, 'inc')">+</button>
+                        </td>
+                        <td class="d-flex gap-2" [ngClass]="item.isDone ? 'itemCompleted' : 'itemOnGoing'"
+                            class="itemName">{{item.itemUnitPrice * item.itemQuantity}}</td>
+                        <td>
+                            <span class="float-end text-secondary rmBtn" (click)="removeItem(item.itemName)">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
